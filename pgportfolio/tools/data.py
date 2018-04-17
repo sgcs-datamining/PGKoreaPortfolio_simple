@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def pricenorm3d(m, features, norm_method, fake_ratio=1.0, with_y=True):
-    """normalize the price tensor, whose shape is [features, coins, windowsize]
+    """normalize the price tensor, whose shape is [features, assets, windowsize]
     @:param m: input tensor, unnormalized and there could be nan in it
     @:param with_y: if the tensor include y (future price)
         logging.debug("price are %s" % (self._latest_price_matrix[0, :, -1]))
@@ -21,7 +21,7 @@ def pricenorm3d(m, features, norm_method, fake_ratio=1.0, with_y=True):
     return result
 
 
-# input m is a 2d matrix, (coinnumber+1) * windowsize
+# input m is a 2d matrix, (assetnumber+1) * windowsize
 def pricenorm2d(m, reference_column,
                 norm_method="absolute", fake_ratio=1.0, one_position=2):
     if norm_method=="absolute":

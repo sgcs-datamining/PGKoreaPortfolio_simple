@@ -11,7 +11,7 @@ MIN_NUM_PERIOD = 3
 
 class DataMatrices:
     def __init__(self, start, end, period, batch_size=50, volume_average_days=30, buffer_bias_ratio=0,
-                 market="poloniex", coin_filter=1, window_size=50, feature_number=3, test_portion=0.15,
+                 market="poloniex", asset_filter=1, window_size=50, feature_number=3, test_portion=0.15,
                  portion_reversed=False, online=False, is_permed=False):
         """
         :param start: Unix time
@@ -20,7 +20,7 @@ class DataMatrices:
         :param trade_period: the trading period of the agent.
         :param global_period: the data access period of the global price matrix.
                               if it is not equal to the access period, there will be inserted observations
-        :param coin_filter: number of coins that would be selected
+        :param asset_filter: number of assets that would be selected
         :param window_size: periods of input data
         :param train_portion: portion of training set
         :param is_permed: if False, the sample inside a mini-batch is in order
@@ -33,12 +33,12 @@ class DataMatrices:
         self.__end = int(end)
 
         # assert window_size >= MIN_NUM_PERIOD
-        self.__coin_no = coin_filter
+        self.__asset_no = asset_filter
         type_list = get_type_list(feature_number)
         self.__features = type_list
         self.feature_number = feature_number
         volume_forward = get_volume_forward(self.__end-start, test_portion, portion_reversed)
-        self.__history_manager = gdm.HistoryManager(coin_number=coin_filter, end=self.__end,
+        self.__history_manager = gdm.HistoryManager(asset_number=asset_filter, end=self.__end,
                                                     volume_average_days=volume_average_days,
                                                     volume_forward=volume_forward)
         if market == "poloniex":
@@ -52,7 +52,7 @@ class DataMatrices:
         # portfolio vector memory, [time, assets]
         self.__PVM = pd.DataFrame(index=self.__global_data.minor_axis,
                                   columns=self.__global_data.major_axis)
-        self.__PVM = self.__PVM.fillna(1.0 / self.__coin_no)
+        self.__PVM = self.__PVM.fillna(1.0 / self.__asset_no)
 
         self._window_size = window_size
         self._num_periods = len(self.__global_data.minor_axis)
@@ -68,7 +68,7 @@ class DataMatrices:
                                                end_index=end_index,
                                                sample_bias=buffer_bias_ratio,
                                                batch_size=self.__batch_size,
-                                               coin_number=self.__coin_no,
+                                               asset_number=self.__asset_no,
                                                is_permed=self.__is_permed)
 
         logging.info("the number of training examples is %s"
@@ -98,7 +98,7 @@ class DataMatrices:
                             window_size=input_config["window_size"],
                             online=input_config["online"],
                             period=input_config["global_period"],
-                            coin_filter=input_config["coin_number"],
+                            asset_filter=input_config["asset_number"],
                             is_permed=input_config["is_permed"],
                             buffer_bias_ratio=train_config["buffer_biased"],
                             batch_size=train_config["batch_size"],
@@ -112,8 +112,8 @@ class DataMatrices:
         return self.__global_data
 
     @property
-    def coin_list(self):
-        return self.__history_manager.coins
+    def asset_list(self):
+        return self.__history_manager.assets
 
     @property
     def num_train_samples(self):

@@ -7,9 +7,9 @@ import pgportfolio.learn.network as network
 class NNAgent:
     def __init__(self, config, restore_dir=None, device="cpu"):
         self.__config = config
-        self.__coin_number = config["input"]["coin_number"]
+        self.__asset_number = config["input"]["asset_number"]
         self.__net = network.CNN(config["input"]["feature_number"],
-                                 self.__coin_number,
+                                 self.__asset_number,
                                  config["input"]["window_size"],
                                  config["layers"],
                                  device=device)
@@ -17,7 +17,7 @@ class NNAgent:
         self.__train_operation = None
         self.__y = tf.placeholder(tf.float32, shape=[None,
                                                      self.__config["input"]["feature_number"],
-                                                     self.__coin_number])
+                                                     self.__asset_number])
         self.__future_price = tf.concat([tf.ones([self.__net.input_num, 1]),
                                        self.__y[:, 0, :]], 1)
         self.__future_omega = (self.__future_price * self.__net.output) /\

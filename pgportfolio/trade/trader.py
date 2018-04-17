@@ -22,7 +22,7 @@ class Trader:
             self._norm_method = "relative"
         elif agent_type == "nn":
             self._rolling_trainer = RollingTrainer(config, net_dir, agent=agent)
-            self._coin_name_list = self._rolling_trainer.coin_list
+            self._asset_name_list = self._rolling_trainer.asset_list
             self._norm_method = config["input"]["norm_method"]
             if not agent:
                 agent = self._rolling_trainer.agent
@@ -33,12 +33,12 @@ class Trader:
         # the total assets is calculated with KRW
         self._total_capital = initial_krw
         self._window_size = config["input"]["window_size"]
-        self._coin_number = config["input"]["coin_number"]
+        self._asset_number = config["input"]["asset_number"]
         self._commission_rate = config["trading"]["trading_consumption"]
         self._fake_ratio = config["input"]["fake_ratio"]
-        self._asset_vector = np.zeros(self._coin_number+1)
+        self._asset_vector = np.zeros(self._asset_number+1)
 
-        self._last_omega = np.zeros((self._coin_number+1,))
+        self._last_omega = np.zeros((self._asset_number+1,))
         self._last_omega[0] = 1.0
 
         if self.__class__.__name__=="BackTest":
@@ -51,8 +51,8 @@ class Trader:
 
     def _initialize_logging_data_frame(self, initial_krw):
         logging_dict = {'Total Asset (KRW)': initial_krw, 'KRW': 1}
-        for coin in self._coin_name_list:
-            logging_dict[coin] = 0
+        for asset in self._asset_name_list:
+            logging_dict[asset] = 0
         self._logging_data_frame = pd.DataFrame(logging_dict, index=pd.to_datetime([time.time()], unit='s'))
 
     def generate_history_matrix(self):
@@ -68,8 +68,8 @@ class Trader:
         time_index = pd.to_datetime([time], unit='s')
         if self._steps > 0:
             logging_dict = {'Total Asset (KRW)': self._total_capital, 'KRW': omega[0, 0]}
-            for i in range(len(self._coin_name_list)):
-                logging_dict[self._coin_name_list[i]] = omega[0, i + 1]
+            for i in range(len(self._asset_name_list)):
+                logging_dict[self._asset_name_list[i]] = omega[0, i + 1]
             new_data_frame = pd.DataFrame(logging_dict, index=time_index)
             self._logging_data_frame = self._logging_data_frame.append(new_data_frame)
 

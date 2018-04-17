@@ -15,8 +15,8 @@ class RollingTrainer(TraderTrainer):
         return self._agent
 
     @property
-    def coin_list(self):
-        return self._matrix.coin_list
+    def asset_list(self):
+        return self._matrix.asset_list
 
     @property
     def data_matrices(self):

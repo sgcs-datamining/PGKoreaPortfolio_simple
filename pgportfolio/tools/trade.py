@@ -7,11 +7,11 @@ from pgportfolio.tools.data import get_volume_forward
 from time import time
 
 
-def get_coin_name_list(config, online):
+def get_asset_name_list(config, online):
     """
     :param online: boolean value to show if connected to internet,
     if False, load data from database.
-    :return : list of coin names
+    :return : list of asset names
     """
     input_config = config["input"]
     if not online:
@@ -27,12 +27,12 @@ def get_coin_name_list(config, online):
     end = end - (end % input_config["trade_period"])
     start = end - volume_forward - input_config["volume_average_days"] * DAY
     end = end - volume_forward
-    coins = HistoryManager(input_config["coin_number"], end,
+    assets = HistoryManager(input_config["asset_number"], end,
                            volume_forward=volume_forward,
                            volume_average_days=input_config["volume_average_days"],
                            online=online).\
-        select_coins(start, end)
-    return coins
+        select_assets(start, end)
+    return assets
 
 
 def calculate_pv_after_commission(w1, w0, commission_rate):
@@ -54,7 +54,7 @@ def calculate_pv_after_commission(w1, w0, commission_rate):
 
 def get_test_data(config):
     """
-    :return : a 2d numpy array with shape(coin_number, periods),
+    :return : a 2d numpy array with shape(asset_number, periods),
      each element the relative price
     """
     config["input"]["feature_number"] = 1
@@ -66,15 +66,15 @@ def get_test_data(config):
     return test_set
 
 
-def asset_vector_to_dict(coin_list, vector, with_krw=True):
+def asset_vector_to_dict(asset_list, vector, with_krw=True):
     vector = np.squeeze(vector)
-    dict_coin = {}
+    dict_asset = {}
     if with_krw:
-        dict_coin['KRW'] = vector[0]
-    for i, name in enumerate(coin_list):
+        dict_asset['KRW'] = vector[0]
+    for i, name in enumerate(asset_list):
         if vector[i+1] > 0:
-            dict_coin[name] = vector[i + 1]
-    return dict_coin
+            dict_asset[name] = vector[i + 1]
+    return dict_asset
 
 
 def save_test_data(config, file_name="test_data", output_format="csv"):

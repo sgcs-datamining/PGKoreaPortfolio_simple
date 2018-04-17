@@ -3,12 +3,12 @@ import logging
 
 
 class ReplayBuffer:
-    def __init__(self, start_index, end_index, batch_size, is_permed, coin_number, sample_bias=1.0):
+    def __init__(self, start_index, end_index, batch_size, is_permed, asset_number, sample_bias=1.0):
         """
         :param start_index: start index of the training set on the global data matrices
         :param end_index: end index of the training set on the global data matrices
         """
-        self.__coin_number = coin_number
+        self.__asset_number = asset_number
         self.__experiences = [Experience(i) for i in range(start_index, end_index)]
         self.__is_permed = is_permed
         # NOTE: in order to achieve the previous w feature

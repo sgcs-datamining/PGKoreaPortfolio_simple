@@ -1,7 +1,7 @@
 {
     "agent_type": "NNAgent",
     "input": {
-        "coin_number": 5,
+        "asset_number": 5,
         "end_date": "2018/03/19",
         "fake_ratio": 1,
         "feature_number": 3,

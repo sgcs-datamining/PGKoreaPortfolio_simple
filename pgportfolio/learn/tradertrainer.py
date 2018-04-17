@@ -44,7 +44,7 @@ class TraderTrainer:
         np.random.seed(config["random_seed"])
 
         self.__window_size = self.input_config["window_size"]
-        self.__coin_number = self.input_config["coin_number"]
+        self.__asset_number = self.input_config["asset_number"]
         self.__batch_size = self.train_config["batch_size"]
         self.__snap_shot = self.train_config["snap_shot"]
         config["input"]["fake_data"] = fake_data
