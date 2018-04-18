@@ -5,7 +5,7 @@
         "end_date": "2018/03/19",
         "fake_ratio": 1,
         "feature_number": 3,
-        "global_period": 1800,
+        "global_period": 300,
         "is_permed": false,
         "market": "poloniex",
         "norm_method": "absolute",
@@ -63,7 +63,7 @@
         "learning_rate": 0.00028,
         "loss_function": "loss_function6",
         "snap_shot": false,
-        "steps": 5000,
+        "steps": 52539,
         "training_method": "Adam"
     }
 }
