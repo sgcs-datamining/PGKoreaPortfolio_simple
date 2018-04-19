@@ -7,7 +7,7 @@ PGKoreaPortfolio simple demo version
 > conda create -n pgkps
 > activate pgkps
 
-> conda install tensorflow
+> conda install tensorflow pandas
 > pip install tflearn
 
 > python main.py
