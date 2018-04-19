@@ -219,7 +219,7 @@ class TraderTrainer:
                                      net_dir=None,
                                      agent=self._agent)
 
-        backtest.start_trading()
+        backtest.start_trading()                                        # Start Trading & Write on the console with self.__trade_body()
         result = Result(test_pv=[v_pv],
                         test_log_mean=[v_log_mean],
                         test_log_mean_free=[v_log_mean_free],
