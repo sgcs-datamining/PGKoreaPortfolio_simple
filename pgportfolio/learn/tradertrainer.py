@@ -190,7 +190,7 @@ class TraderTrainer:
                 logging.info("average time for training is %s"%(total_training_time/1000))
                 total_training_time = 0
                 total_data_time = 0
-                self.log_between_steps(i)
+                self.log_between_steps(i)                           # Train step by 1000
 
         if self.save_path:
             self._agent.recycle()
