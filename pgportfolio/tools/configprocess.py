@@ -8,10 +8,10 @@ rootpath = os.path.dirname(os.path.abspath(__file__)).\
 
 unicode = str  # Python 3
 
-def preprocess_config(config):
+def preprocess_config(config):                              # preprocess file depending on the version of python.
     fill_default(config)
-    if sys.version_info[0] == 2:
-        return byteify(config)
+    if sys.version_info[0] == 2:                            # if your python version is 2.
+        return byteify(config)                              
     else:
         return config
 
@@ -89,7 +89,7 @@ def parse_time(time_string):
     return time.mktime(datetime.strptime(time_string, "%Y/%m/%d").timetuple())
 
 
-def load_config():
+def load_config():                                                      # load json file.
     """
     @:param index: if None, load the default in pgportfolio;
      if a integer, load the config under train_package
