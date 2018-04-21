@@ -74,12 +74,12 @@ def set_missing(config, name, value):
 
 
 def byteify(input):
-    if isinstance(input, dict):
+    if isinstance(input, dict):                                         # if input is dictionary.
         return {byteify(key): byteify(value)
                 for key, value in input.iteritems()}
-    elif isinstance(input, list):
+    elif isinstance(input, list):                                       # if input is list.
         return [byteify(element) for element in input]
-    elif isinstance(input, unicode):
+    elif isinstance(input, unicode):                                    # if input is unicode.
         return str(input)
     else:
         return input
