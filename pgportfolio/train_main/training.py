@@ -29,7 +29,7 @@ def train_main(device='cpu'):
     logging.getLogger().addHandler(console)
 
     print("training at {} started".format(now_str))
-    tt =  TraderTrainer(load_config(), save_path=base_log_dir + '/netfile', device=device)
+    tt =  TraderTrainer(load_config(), save_path=base_log_dir + '/netfile', device=device)      # load_config() : load json file depending on Python version.
     train_retval = tt.train_net(log_file_dir=base_log_dir + '/tensorboard', index=now_str)
     print("training at {} finished".format(now_str))
 
