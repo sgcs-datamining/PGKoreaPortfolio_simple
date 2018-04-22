@@ -201,7 +201,7 @@ class TraderTrainer:
         logging.warning('the portfolio value train No.%s is %s log_mean is %s,'
                         ' the training time is %d seconds' % (index, pv, log_mean, time.time() - starttime))
 
-        return self.__log_result_csv(index, time.time() - starttime)
+        return self.__log_result_csv(index, time.time() - starttime)                    # save results in train_summary.csv
 
     def __log_result_csv(self, index, time):
         from pgportfolio.trade import backtest
