@@ -8,7 +8,7 @@ rootpath = os.path.dirname(os.path.abspath(__file__)).\
 
 unicode = str  # Python 3
 
-def preprocess_config(config):                              # preprocess file depending on the version of python.
+def preprocess_config(config):                              # preprocess the file depending on the version of python.
     fill_default(config)
     if sys.version_info[0] == 2:                            # if your python version is 2.
         return byteify(config)                              
