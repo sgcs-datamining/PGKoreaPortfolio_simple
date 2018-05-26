@@ -190,7 +190,7 @@ class TraderTrainer:
                 logging.info("average time for training is %s"%(total_training_time/1000))
                 total_training_time = 0
                 total_data_time = 0
-                self.log_between_steps(i)
+                self.log_between_steps(i)                           # Train step by 1000
 
         if self.save_path:
             self._agent.recycle()
@@ -201,7 +201,7 @@ class TraderTrainer:
         logging.warning('the portfolio value train No.%s is %s log_mean is %s,'
                         ' the training time is %d seconds' % (index, pv, log_mean, time.time() - starttime))
 
-        return self.__log_result_csv(index, time.time() - starttime)
+        return self.__log_result_csv(index, time.time() - starttime)                    # save results in train_summary.csv
 
     def __log_result_csv(self, index, time):
         from pgportfolio.trade import backtest
@@ -219,7 +219,7 @@ class TraderTrainer:
                                      net_dir=None,
                                      agent=self._agent)
 
-        backtest.start_trading()
+        backtest.start_trading()                                        # Start Trading & Write on the console with self.__trade_body()
         result = Result(test_pv=[v_pv],
                         test_log_mean=[v_log_mean],
                         test_log_mean_free=[v_log_mean_free],

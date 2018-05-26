@@ -8,10 +8,10 @@ rootpath = os.path.dirname(os.path.abspath(__file__)).\
 
 unicode = str  # Python 3
 
-def preprocess_config(config):
+def preprocess_config(config):                              # preprocess the file depending on the version of python.
     fill_default(config)
-    if sys.version_info[0] == 2:
-        return byteify(config)
+    if sys.version_info[0] == 2:                            # if your python version is 2.
+        return byteify(config)                              
     else:
         return config
 
@@ -74,12 +74,12 @@ def set_missing(config, name, value):
 
 
 def byteify(input):
-    if isinstance(input, dict):
+    if isinstance(input, dict):                                         # if input is dictionary.
         return {byteify(key): byteify(value)
                 for key, value in input.iteritems()}
-    elif isinstance(input, list):
+    elif isinstance(input, list):                                       # if input is list.
         return [byteify(element) for element in input]
-    elif isinstance(input, unicode):
+    elif isinstance(input, unicode):                                    # if input is unicode.
         return str(input)
     else:
         return input
@@ -89,7 +89,7 @@ def parse_time(time_string):
     return time.mktime(datetime.strptime(time_string, "%Y/%m/%d").timetuple())
 
 
-def load_config():
+def load_config():                                                      # load json file.
     """
     @:param index: if None, load the default in pgportfolio;
      if a integer, load the config under train_package
