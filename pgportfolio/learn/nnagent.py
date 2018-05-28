@@ -15,17 +15,26 @@ class NNAgent:
                                  device=device)
         self.__global_step = tf.Variable(0, trainable=False)
         self.__train_operation = None
+
+        # y: price relative vector (논문 식(1) y)
         self.__y = tf.placeholder(tf.float32, shape=[None,
                                                      self.__config["input"]["feature_number"],
                                                      self.__asset_number])
+
+        # t+1 시점의 상대가격(t시점 대비) (맨 처음 값 1은 원화의 가격을 의미)
         self.__future_price = tf.concat([tf.ones([self.__net.input_num, 1]),
                                        self.__y[:, 0, :]], 1)
+
+        # t+1 시점의 가격이 변동됨에 따라 달라진 portfolio vector(논문 식(7) w')
         self.__future_omega = (self.__future_price * self.__net.output) /\
                               tf.reduce_sum(self.__future_price * self.__net.output, axis=1)[:, None]
         # tf.assert_equal(tf.reduce_sum(self.__future_omega, axis=1), tf.constant(1.0))
         self.__commission_ratio = self.__config["trading"]["trading_consumption"]
+
+        # portfolio value 의 vector 각각의 종목별 portfolio value 변화율을 의미
         self.__pv_vector = tf.reduce_sum(self.__net.output * self.__future_price, reduction_indices=[1]) *\
                            (tf.concat([tf.ones(1), self.__pure_pc()], axis=0))
+
         self.__log_mean_free = tf.reduce_mean(tf.log(tf.reduce_sum(self.__net.output * self.__future_price,
                                                                    reduction_indices=[1])))
         self.__portfolio_value = tf.reduce_prod(self.__pv_vector)
